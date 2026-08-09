@@ -151,4 +151,10 @@ MIT. See `LICENSE`.
   <p>
     Made with ❤️ by <a href="https://bits.co.id"><strong>Banten IT Solutions</strong></a>
   </p>
+  <br>
+  <p>
+    <img src="https://img.shields.io/badge/status-live-success" alt="Status">
+    <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
+    <img src="https://img.shields.io/badge/docker-ready-2496ED?logo=docker" alt="Docker">
+  </p>
 </div>
