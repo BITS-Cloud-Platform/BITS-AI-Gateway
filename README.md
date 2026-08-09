@@ -140,21 +140,10 @@ All configuration lives in `.env`.
 
 ## 📄 License
 
-MIT. See `LICENSE`.
+Distributed under MIT License. See `LICENSE`.
 
 <div align="center">
   <p>
-    <strong>BITS AI Gateway</strong> ·
-    <a href="https://ai.bits.co.id">ai.bits.co.id</a> ·
-    <a href="https://bits.co.id">bits.co.id</a>
-  </p>
-  <p>
-    Made with ❤️ by <a href="https://bits.co.id"><strong>Banten IT Solutions</strong></a>
-  </p>
-  <br>
-  <p>
-    <img src="https://img.shields.io/badge/status-live-success" alt="Status">
-    <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
-    <img src="https://img.shields.io/badge/docker-ready-2496ED?logo=docker" alt="Docker">
+    <strong>BITS AI Gateway</strong> Developed with ❤️ by <a href="https://bits.co.id"><strong>Banten IT Solutions</strong></a>
   </p>
 </div>
