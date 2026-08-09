@@ -1,7 +1,9 @@
 <div align="center">
-  <h1>9Router</h1>
+  <h1>BITS AI Gateway</h1>
   <p>
-    <img src="https://img.shields.io/badge/ai.bits.co.id-Online-00C853?style=for-the-badge&logo=statuspage&logoColor=white" alt="ai.bits.co.id Online" />
+    <a href="https://ai.bits.co.id">
+      <img src="https://img.shields.io/badge/ai.bits.co.id-Online-00C853?style=for-the-badge&logo=statuspage&logoColor=white" alt="ai.bits.co.id Online" />
+    </a>
   </p>
   <p>Docker-based AI gateway and routing proxy for secure service access</p>
   <br>
@@ -18,7 +20,7 @@
 
 ## Overview
 
-**9Router** is a lightweight Docker deployment for AI traffic routing and proxying. It provides a single entry point for AI services with request handling, auth controls, health checks, and optional observability components.
+**BITS AI Gateway** is a lightweight Docker deployment for AI traffic routing and proxying. It provides a single entry point for AI services with request handling, auth controls, health checks, and optional observability components.
 
 Live deployment: **[ai.bits.co.id](https://ai.bits.co.id)**
 
@@ -50,7 +52,7 @@ Live deployment: **[ai.bits.co.id](https://ai.bits.co.id)**
 ## Project Structure
 
 ```text
-9Router/
+BITS AI Gateway/
 ├── .env.example       # Environment template
 ├── docker-compose.yml # Service definitions
 ├── README.md          # Project documentation
@@ -165,11 +167,11 @@ MIT. See `LICENSE`.
 
 <div align="center">
   <p>
-    <strong>9Router</strong> ·
+    <strong>BITS AI Gateway</strong> ·
     <a href="https://ai.bits.co.id">ai.bits.co.id</a> ·
     <a href="https://bits.co.id">bits.co.id</a>
   </p>
   <p>
-    Made by <a href="https://bits.co.id"><strong>Banten IT Solutions</strong></a>
+    Powered by <a href="https://bits.co.id"><strong>Banten IT Solutions</strong></a>
   </p>
 </div>
