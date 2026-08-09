@@ -1,98 +1,118 @@
 <div align="center">
   <h1>9Router</h1>
-  <p><strong>AI Gateway & Routing Proxy</strong></p>
   <p>
-    <a href="https://ai.bits.co.id" target="_blank">ai.bits.co.id</a> ·
-    <a href="https://bits.co.id" target="_blank">Banten IT Solutions</a>
+    <img src="https://img.shields.io/badge/ai.bits.co.id-Online-00C853?style=for-the-badge&logo=statuspage&logoColor=white" alt="ai.bits.co.id Online" />
   </p>
+  <p>Docker-based AI gateway and routing proxy for secure service access</p>
   <br>
+  <p>
+    <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white" alt="Docker" />
+    <img src="https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white" alt="Node.js" />
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/Observability-111827?style=flat" alt="Observability" />
+    <img src="https://img.shields.io/badge/license-MIT-green?style=flat" alt="MIT License" />
+  </p>
 </div>
 
 ---
 
-## 📋 Overview
+## Overview
 
-**9Router** is a lightweight, Docker-based AI routing and proxying gateway. It serves as the entry point for AI services, providing authentication, request routing, observability, and secure access management — all behind a single endpoint.
+**9Router** is a lightweight Docker deployment for AI traffic routing and proxying. It provides a single entry point for AI services with request handling, auth controls, health checks, and optional observability components.
 
-It is currently deployed and running live at **[ai.bits.co.id](https://ai.bits.co.id)**, powering AI workloads for [Banten IT Solutions](https://bits.co.id).
-
----
-
-## 🏗️ Architecture
-
-```
-                    ┌─────────────┐
-                    │  9Router    │  (Port 20128)
-                    │  AI Gateway │
-                    └──────┬──────┘
-                           │
-              ┌────────────┼────────────┐
-              ▼            ▼            ▼
-        ┌──────────┐ ┌──────────┐ ┌──────────┐
-        │ Headroom │ │ SearXNG  │ │   ...    │
-        │ Sidecar  │ │  Search  │ │ Services │
-        └──────────┘ └──────────┘ └──────────┘
-```
-
-| Service       | Role                                   |
-|---------------|----------------------------------------|
-| **9Router**   | Main AI gateway & request router       |
-| **Headroom**  | Observability & monitoring sidecar     |
-| **SearXNG**   | Private meta-search engine             |
+Live deployment: **[ai.bits.co.id](https://ai.bits.co.id)**
 
 ---
 
-## 🚀 Quick Start
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Single Entry Point** | Central endpoint for AI service traffic |
+| **API Access Control** | Secret-based request protection |
+| **Health Monitoring** | Built-in container health checks |
+| **Optional Observability** | Headroom sidecar for metrics and monitoring |
+| **Private Search Integration** | Optional SearXNG service support |
+| **Docker First** | Runs with Docker Compose only |
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| **Runtime** | Node.js |
+| **Deployment** | Docker, Docker Compose |
+| **Protocol** | HTTP |
+| **Observability** | Headroom sidecar |
+| **Search** | SearXNG |
+
+---
+
+## Project Structure
+
+```text
+9Router/
+├── .env.example       # Environment template
+├── docker-compose.yml # Service definitions
+├── README.md          # Project documentation
+└── LICENSE            # MIT license
+```
+
+---
+
+## Quick Start
 
 ### Prerequisites
 
-- [Docker](https://docs.docker.com/engine/install/) (v24+)
-- [Docker Compose](https://docs.docker.com/compose/install/) (v2.20+)
+- Docker
+- Docker Compose
 
 ### Setup
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/your-org/9router.git
-cd 9router
-
-# 2. Configure environment variables
+git clone https://github.com/BITS-Cloud-Platform/ai.bits.co.id.git
+cd ai.bits.co.id
 cp .env.example .env
-# ⚠️  Edit .env and set your own secrets (JWT_SECRET, API_KEY_SECRET, etc.)
-
-# 3. Start the services
 docker compose up -d
+```
 
-# 4. Verify the deployment
+### Health Check
+
+```bash
 curl http://localhost:20128/api/health
+```
+
+Expected response:
+
+```json
+{"status":"ok"}
 ```
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
-All configuration is managed through environment variables (`.env` file).
+All configuration lives in `.env`.
 
-| Variable                  | Default                | Description                          |
-|---------------------------|------------------------|--------------------------------------|
-| `PORT`                    | `20128`                | Application port                     |
-| `NODE_ENV`                | `production`           | Environment mode                     |
-| `JWT_SECRET`              | _(required)_           | Secret key for JWT signing           |
-| `API_KEY_SECRET`          | _(required)_           | Secret key for API key hashing       |
-| `MACHINE_ID_SALT`         | _(required)_           | Salt for machine ID generation       |
-| `INITIAL_PASSWORD`        | _(required)_           | Default admin password               |
-| `BASE_URL`                | —                      | Public-facing base URL               |
-| `CLOUD_URL`               | —                      | Cloud service URL                    |
-| `ENABLE_REQUEST_LOGS`     | `false`                | Toggle request logging               |
-| `OBSERVABILITY_ENABLED`   | `true`                 | Enable metrics & monitoring          |
-| `AUTH_COOKIE_SECURE`      | `true`                 | Set Secure flag on cookies           |
-| `REQUIRE_API_KEY`         | `true`                 | Require API key for all requests     |
-| `HEADROOM_URL`            | `http://headroom:8787` | Headroom sidecar URL                 |
-| `SEARXNG_URL`             | —                      | SearXNG search engine URL            |
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | `20128` | Application port |
+| `NODE_ENV` | `production` | Runtime mode |
+| `JWT_SECRET` | required | JWT signing secret |
+| `API_KEY_SECRET` | required | API key hashing secret |
+| `MACHINE_ID_SALT` | required | Machine ID salt |
+| `INITIAL_PASSWORD` | required | Initial admin password |
+| `BASE_URL` | — | Public base URL |
+| `CLOUD_URL` | — | Cloud endpoint URL |
+| `ENABLE_REQUEST_LOGS` | `false` | Enable request logs |
+| `OBSERVABILITY_ENABLED` | `true` | Enable monitoring sidecar |
+| `AUTH_COOKIE_SECURE` | `true` | Set Secure cookie flag |
+| `REQUIRE_API_KEY` | `true` | Require API key on requests |
+| `HEADROOM_URL` | `http://headroom:8787` | Headroom service URL |
+| `SEARXNG_URL` | `http://searxng:8080/search` | SearXNG endpoint |
 
 ---
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 ### Production
 
@@ -100,104 +120,48 @@ All configuration is managed through environment variables (`.env` file).
 docker compose up -d
 ```
 
-### With Custom Resources
-
-```yaml
-# docker-compose.override.yml (not tracked by git)
-services:
-  9router:
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-          cpus: "2.0"
-```
-
-### Health Check
+### Logs
 
 ```bash
-curl https://ai.bits.co.id/api/health
-```
-
-Expected response:
-```json
-{"status":"ok"}
-```
-
----
-
-## 🔐 Security
-
-> **⚠️ IMPORTANT**: Before pushing to any public repository, ensure you have:
-> 1. Created a `.env` file with **your own unique secrets**
-> 2. Added `.env` to `.gitignore` (it is by default)
-> 3. Never committed the actual `.env` file to version control
-
-### Best Practices
-
-- Rotate `JWT_SECRET`, `API_KEY_SECRET`, and `MACHINE_ID_SALT` regularly
-- Use strong, randomly generated values for all secrets
-- Enable `AUTH_COOKIE_SECURE=true` in production (requires HTTPS)
-- Restrict network access to the service port
-
----
-
-## 📊 Observability
-
-When `OBSERVABILITY_ENABLED=true` (default), the Headroom sidecar collects and exposes metrics:
-
-- Request counts & latency
-- Error rates
-- Active connections
-- System resource usage
-
----
-
-## 🧑‍💻 Development
-
-```bash
-# View logs
 docker compose logs -f 9router
+```
 
-# Restart a service
-docker compose restart 9router
+### Stop
 
-# Stop all services
+```bash
 docker compose down
+```
 
-# Reset data volume
+### Reset Data
+
+```bash
 docker compose down -v
 ```
 
 ---
 
-## 🧪 Testing
+## Security
 
-```bash
-# Health endpoint
-curl http://localhost:20128/api/health
-
-# With API key
-curl -H "X-API-Key: your-api-key" http://localhost:20128/api/health
-```
+- Never commit `.env`
+- Use strong random values for all secrets
+- Rotate secrets regularly
+- Keep `AUTH_COOKIE_SECURE=true` in production
+- Restrict network access to exposed ports
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feat/your-feature`)
-3. Commit your changes (`git commit -m 'feat: add feature'`)
-4. Push to the branch (`git push origin feat/your-feature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is developed and maintained by **Banten IT Solutions**.
+1. Fork repo
+2. Create branch
+3. Commit change
+4. Open pull request
 
 ---
+
+## License
+
+MIT. See `LICENSE`.
 
 <div align="center">
   <p>
@@ -206,12 +170,6 @@ This project is developed and maintained by **Banten IT Solutions**.
     <a href="https://bits.co.id">bits.co.id</a>
   </p>
   <p>
-    Made with ❤️ by <a href="https://bits.co.id"><strong>Banten IT Solutions</strong></a>
-  </p>
-  <br>
-  <p>
-    <img src="https://img.shields.io/badge/status-live-success" alt="Status">
-    <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="Version">
-    <img src="https://img.shields.io/badge/docker-ready-2496ED?logo=docker" alt="Docker">
+    Made by <a href="https://bits.co.id"><strong>Banten IT Solutions</strong></a>
   </p>
 </div>
