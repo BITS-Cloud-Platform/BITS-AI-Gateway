@@ -5,12 +5,15 @@
       <img src="https://img.shields.io/badge/ai.bits.co.id-Online-00C853?style=for-the-badge&logo=statuspage&logoColor=white" alt="ai.bits.co.id Online" />
     </a>
   </p>
-  <p>Docker-based AI gateway and routing proxy for secure service access</p>
+  <p>
+    Route, secure, and monitor AI traffic through one Docker gateway
+  </p>
   <br>
   <p>
     <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white" alt="Docker" />
     <img src="https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white" alt="Node.js" />
     <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/SearXNG-FFB000?style=flat&logo=search&logoColor=white" alt="SearXNG" />
     <img src="https://img.shields.io/badge/Observability-111827?style=flat" alt="Observability" />
     <img src="https://img.shields.io/badge/license-MIT-green?style=flat" alt="MIT License" />
   </p>
@@ -18,36 +21,31 @@
 
 ---
 
-## Overview
-
-**BITS AI Gateway** is a lightweight Docker deployment for AI traffic routing and proxying. It provides a single entry point for AI services with request handling, auth controls, health checks, and optional observability components.
-
----
-
-## Features
+## ✨ Features
 
 | Feature | Description |
 |---------|-------------|
-| **Single Entry Point** | Central endpoint for AI service traffic |
-| **API Access Control** | Secret-based request protection |
-| **Health Monitoring** | Built-in container health checks |
-| **Optional Observability** | Headroom sidecar for metrics and monitoring |
-| **Private Search Integration** | Optional SearXNG service support |
-| **Docker First** | Runs with Docker Compose only |
+| **Single Entry Point** | One endpoint for AI service traffic |
+| **Access Control** | API key and JWT-based protection |
+| **Health Checks** | Built-in service health monitoring |
+| **Optional Observability** | Headroom sidecar for metrics |
+| **Private Search Support** | Optional SearXNG integration |
+| **Docker Deployment** | Runs with Docker Compose |
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 | Layer | Technology |
 |-------|------------|
 | **Runtime** | Node.js |
+| **Language** | TypeScript |
 | **Deployment** | Docker, Docker Compose |
-| **Protocol** | HTTP |
-| **Observability** | Headroom sidecar |
+| **Security** | JWT, API key secret, secure cookies |
+| **Monitoring** | Headroom sidecar |
 | **Search** | SearXNG |
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
 BITS AI Gateway/
@@ -59,7 +57,7 @@ BITS AI Gateway/
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -89,7 +87,25 @@ Expected response:
 
 ---
 
-## Configuration
+## 💻 Development
+
+```bash
+# View logs
+docker compose logs -f 9router
+
+# Restart service
+docker compose restart 9router
+
+# Stop all services
+docker compose down
+
+# Reset data volume
+docker compose down -v
+```
+
+---
+
+## ⚙️ Configuration
 
 All configuration lives in `.env`.
 
@@ -112,35 +128,7 @@ All configuration lives in `.env`.
 
 ---
 
-## Docker Deployment
-
-### Production
-
-```bash
-docker compose up -d
-```
-
-### Logs
-
-```bash
-docker compose logs -f 9router
-```
-
-### Stop
-
-```bash
-docker compose down
-```
-
-### Reset Data
-
-```bash
-docker compose down -v
-```
-
----
-
-## Security
+## 🔐 Security
 
 - Never commit `.env`
 - Use strong random values for all secrets
@@ -150,16 +138,7 @@ docker compose down -v
 
 ---
 
-## Contributing
-
-1. Fork repo
-2. Create branch
-3. Commit change
-4. Open pull request
-
----
-
-## License
+## 📄 License
 
 MIT. See `LICENSE`.
 
