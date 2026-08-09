@@ -2,7 +2,7 @@
   <h1>BITS AI Gateway</h1>
   <p>
     <a href="https://ai.bits.co.id">
-      <img src="https://img.shields.io/badge/ai.bits.co.id-Online-00C853?style=for-the-badge&logo=statuspage&logoColor=white" alt="ai.bits.co.id Online" />
+      <img src="https://img.shields.io/badge/BITS%20AI%20Gateway-Online-00C853?style=for-the-badge&logo=statuspage&logoColor=white" alt="BITS AI Gateway Online" />
     </a>
   </p>
   <p>
@@ -67,8 +67,8 @@ BITS AI Gateway/
 ### Setup
 
 ```bash
-git clone https://github.com/BITS-Cloud-Platform/ai.bits.co.id.git
-cd ai.bits.co.id
+git clone https://github.com/BITS-Cloud-Platform/bits-ai-gateway.git
+cd bits-ai-gateway
 cp .env.example .env
 docker compose up -d
 ```
