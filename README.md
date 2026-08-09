@@ -22,8 +22,6 @@
 
 **BITS AI Gateway** is a lightweight Docker deployment for AI traffic routing and proxying. It provides a single entry point for AI services with request handling, auth controls, health checks, and optional observability components.
 
-Live deployment: **[ai.bits.co.id](https://ai.bits.co.id)**
-
 ---
 
 ## Features
@@ -172,6 +170,6 @@ MIT. See `LICENSE`.
     <a href="https://bits.co.id">bits.co.id</a>
   </p>
   <p>
-    Powered by <a href="https://bits.co.id"><strong>Banten IT Solutions</strong></a>
+    Made with ❤️ by <a href="https://bits.co.id"><strong>Banten IT Solutions</strong></a>
   </p>
 </div>
