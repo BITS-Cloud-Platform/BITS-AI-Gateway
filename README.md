@@ -142,6 +142,8 @@ All configuration lives in `.env`.
 
 Distributed under MIT License. See `LICENSE`.
 
+---
+
 <div align="center">
   <p>
     <strong>BITS AI Gateway</strong> Developed with ❤️ by <a href="https://bits.co.id"><strong>Banten IT Solutions</strong></a>
