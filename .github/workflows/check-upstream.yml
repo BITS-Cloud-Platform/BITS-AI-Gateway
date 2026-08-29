@@ -1,60 +1,50 @@
-name: "🌌 BITS AI Gateway • Warp Sync"
+name: "🌌 Warp Sync"
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Daily at 07:00 WIB (00:00 UTC)
+    - cron: '0 0 * * *' # Daily 07:00 WIB
   workflow_dispatch:
 
 jobs:
   warp-hunter:
-    name: "🛰️ Warp Hunter — Hunt New 9Router & Headroom"
+    name: "🛰️ Warp Hunter"
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: "📦 Beam Me Up — Checkout Repo"
+      - name: "📦 Checkout"
         uses: actions/checkout@v4
 
-      - name: "🧬 Decode 9Router — Pull Latest Digest"
+      - name: "🧬 Check 9Router"
         id: router
         run: |
-          echo "🔭 Checking ghcr.io/decolua/9router:latest ..."
           docker pull ghcr.io/decolua/9router:latest
           DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/decolua/9router:latest | cut -d'@' -f2)
           echo "digest=$DIGEST" >> $GITHUB_OUTPUT
-          echo "✨ 9Router Warp Core: $DIGEST"
+          echo "9Router: $DIGEST"
 
-      - name: "🎩 Scout Headroom — Check Sidecar"
+      - name: "🎩 Check Headroom"
         id: headroom
         run: |
-          echo "🔭 Checking ghcr.io/chopratejas/headroom:latest ..."
           docker pull ghcr.io/chopratejas/headroom:latest
           DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/chopratejas/headroom:latest | cut -d'@' -f2)
           echo "digest=$DIGEST" >> $GITHUB_OUTPUT
-          echo "🎩 Headroom Signal: $DIGEST"
+          echo "Headroom: $DIGEST"
 
-      - name: "⚖️ Compare Warp — Old vs New"
+      - name: "⚖️ Compare"
         run: |
           mkdir -p .upstream
           echo "${{ steps.router.outputs.digest }}" > .upstream/9router.digest
           echo "${{ steps.headroom.outputs.digest }}" > .upstream/headroom.digest
-          echo "📜 Changes:"
           git diff --color || true
-          if git diff --quiet; then
-            echo "💤 No new warp today — same orbit"
-            exit 0
-          else
-            echo "🚀 New warp found! Ready to jump."
-          fi
+          git diff --quiet && echo "No update" && exit 0
+          echo "New warp found"
 
-      - name: "💾 Save Warp Log — Commit & Push"
-        if: success()
+      - name: "💾 Push"
         run: |
-          if git diff --quiet; then exit 0; fi
-          git config user.name "BITS Warp Bot 🤖"
+          git diff --quiet && exit 0
+          git config user.name "Warp Bot 🤖"
           git config user.email "warp-bot@bits.co.id"
           git add .upstream/
-          git commit -m "chore(warp): bump upstream 🛰️ 9router=${{ steps.router.outputs.digest }} 🎩 headroom=${{ steps.headroom.outputs.digest }}"
-          echo "📡 Pushing to GitHub..."
+          git commit -m "chore: bump 9router ${{ steps.router.outputs.digest }}"
           git push
-          echo "✅ Warp Sync sent! Arcane will pull in 5 minutes."
