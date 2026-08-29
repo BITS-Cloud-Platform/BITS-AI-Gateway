@@ -1,50 +1,61 @@
-name: Check Upstream Images
+name: "🌌 BITS AI Gateway • Warp Sync"
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # tiap 6 jam
+    - cron: '0 0 * * *' # Tiap hari jam 07:00 WIB (00:00 UTC)
   workflow_dispatch:
 
 jobs:
-  check:
+  warp-hunter:
+    name: "🛰️ Warp Hunter — Berburu Versi Baru 9Router & Headroom"
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: "📦 Beam Me Up — Clone Repo"
+        uses: actions/checkout@v4
 
-      - name: Check 9router latest digest
+      - name: "🧬 Decode 9Router — Tarik Digest Terbaru dari GHCR"
         id: router
         run: |
+          echo "🔭 Mengintai ghcr.io/decolua/9router:latest ..."
           docker pull ghcr.io/decolua/9router:latest
           DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/decolua/9router:latest | cut -d'@' -f2)
           echo "digest=$DIGEST" >> $GITHUB_OUTPUT
-          echo "9router digest: $DIGEST"
-          echo "$DIGEST" > /tmp/new_digest
-          cat /tmp/new_digest
+          echo "✨ 9Router Warp Core: $DIGEST"
 
-      - name: Check headroom latest digest
+      - name: "🎩 Headroom Recon — Mata-matai Sidecar"
         id: headroom
         run: |
+          echo "🔭 Mengintai ghcr.io/chopratejas/headroom:latest ..."
           docker pull ghcr.io/chopratejas/headroom:latest
           DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/chopratejas/headroom:latest | cut -d'@' -f2)
           echo "digest=$DIGEST" >> $GITHUB_OUTPUT
-          echo "headroom digest: $DIGEST"
+          echo "🎩 Headroom Signal: $DIGEST"
 
-      - name: Compare and commit if changed
+      - name: "⚖️ Warp Comparison — Bandingkan Jejak Lama vs Baru"
         run: |
           mkdir -p .upstream
           echo "${{ steps.router.outputs.digest }}" > .upstream/9router.digest
           echo "${{ steps.headroom.outputs.digest }}" > .upstream/headroom.digest
-          
-          # cek apakah ada perubahan
+          echo "📜 Jejak lama vs baru:"
+          git diff --color || true
           if git diff --quiet; then
-            echo "No update - digest sama"
+            echo "💤 Tidak ada warp baru hari ini — tetap di orbit yang sama"
             exit 0
+          else
+            echo "🚀 Warp baru terdeteksi! Siap lompat."
           fi
-          
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: "💾 Commit Warp Log — Catat di Buku Kapal"
+        if: success()
+        run: |
+          # cegah commit kosong kalau gak ada perubahan
+          if git diff --quiet; then exit 0; fi
+          git config user.name "BITS Warp Bot 🤖"
+          git config user.email "warp-bot@bits.co.id"
           git add .upstream/
-          git commit -m "chore: bump upstream images 9router=${{ steps.router.outputs.digest }} headroom=${{ steps.headroom.outputs.digest }}"
+          git commit -m "chore(warp): bump upstream 🛰️ 9router=${{ steps.router.outputs.digest }} 🎩 headroom=${{ steps.headroom.outputs.digest }}"
+          echo "📡 Memancarkan sinyal ke GitHub..."
           git push
+          echo "✅ Warp Sync terkirim! Arcane akan menarik dalam 5 menit."
