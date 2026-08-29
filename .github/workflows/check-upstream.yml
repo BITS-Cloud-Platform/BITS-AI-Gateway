@@ -1,0 +1,50 @@
+name: Check Upstream Images
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # tiap 6 jam
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check 9router latest digest
+        id: router
+        run: |
+          docker pull ghcr.io/decolua/9router:latest
+          DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/decolua/9router:latest | cut -d'@' -f2)
+          echo "digest=$DIGEST" >> $GITHUB_OUTPUT
+          echo "9router digest: $DIGEST"
+          echo "$DIGEST" > /tmp/new_digest
+          cat /tmp/new_digest
+
+      - name: Check headroom latest digest
+        id: headroom
+        run: |
+          docker pull ghcr.io/chopratejas/headroom:latest
+          DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/chopratejas/headroom:latest | cut -d'@' -f2)
+          echo "digest=$DIGEST" >> $GITHUB_OUTPUT
+          echo "headroom digest: $DIGEST"
+
+      - name: Compare and commit if changed
+        run: |
+          mkdir -p .upstream
+          echo "${{ steps.router.outputs.digest }}" > .upstream/9router.digest
+          echo "${{ steps.headroom.outputs.digest }}" > .upstream/headroom.digest
+          
+          # cek apakah ada perubahan
+          if git diff --quiet; then
+            echo "No update - digest sama"
+            exit 0
+          fi
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .upstream/
+          git commit -m "chore: bump upstream images 9router=${{ steps.router.outputs.digest }} headroom=${{ steps.headroom.outputs.digest }}"
+          git push
