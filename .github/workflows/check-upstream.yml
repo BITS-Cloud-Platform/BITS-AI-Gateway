@@ -36,13 +36,19 @@ jobs:
           mkdir -p .upstream
           echo "${{ steps.router.outputs.digest }}" > .upstream/9router.digest
           echo "${{ steps.headroom.outputs.digest }}" > .upstream/headroom.digest
+          echo "--- git status ---"
+          git status --porcelain
+          echo "--- diff ---"
           git diff --color || true
-          git diff --quiet && echo "No update" && exit 0
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No update"
+            exit 0
+          fi
           echo "New warp found"
 
       - name: "💾 Push"
         run: |
-          git diff --quiet && exit 0
+          if [ -z "$(git status --porcelain)" ]; then exit 0; fi
           git config user.name "Warp Bot 🤖"
           git config user.email "warp-bot@bits.co.id"
           git add .upstream/
